@@ -37,8 +37,19 @@
             'vote' => 2,
             'distance_to_center' => 50
         ],
-
     ];
+
+    $parkFilter = isset($_GET["park"]) ? true : false;
+
+
+    $hotelsToPrint = [];
+    foreach ($hotels as $hotel){
+        if ($parkFilter){
+            $hotel["parking"] ? $hotelsToPrint[] = $hotel : null;
+        } else {
+            $hotelsToPrint[] = $hotel;
+        };
+    };
 ?>
 
 <!DOCTYPE html>
@@ -50,6 +61,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
+    <form method="GET">
+        <label for="park">Filter for Parking</label>
+        <input type="checkbox" name="park" id="park">
+        <button type="submit">Filter</button>
+    </form>
     <table class="table">
         <thead>
             <tr>
@@ -59,7 +75,7 @@
             </tr>
         </thead>
         <tbody>
-        <?php foreach ($hotels as $hotel) {?>
+        <?php foreach ($hotelsToPrint as $hotel) {?>
         <tr>
             <?php foreach($hotel as $key => $info) { ?>
                 <?php if ($key === "parking"){ ?>
