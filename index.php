@@ -42,18 +42,21 @@
     $parkFilter = isset($_GET["park"]) ? true : false;
     $voteFilter = !isset($_GET["vote"]) || $_GET["vote"] == "false" ? false : $_GET["vote"];
 
-    $hotelsToPrint = [];
-    foreach ($hotels as $hotel){
-        if ($parkFilter && $voteFilter){
-            $hotel["parking"] && $hotel["vote"] >= $voteFilter ? $hotelsToPrint[] = $hotel : null;
-        } elseif ($parkFilter){
-            $hotel["parking"] ? $hotelsToPrint[] = $hotel : null;
-        } elseif ($voteFilter){
-            $hotel["vote"] >= $voteFilter ? $hotelsToPrint[] = $hotel : null;
-        } else {
-            $hotelsToPrint[] = $hotel;
+    $hotelsToPrint = $hotels;
+
+    if($parkFilter || $voteFilter){
+        $hotelsToPrint = [];
+        foreach ($hotels as $hotel){
+            if ($parkFilter && $voteFilter){
+                $hotel["parking"] && $hotel["vote"] >= $voteFilter ? $hotelsToPrint[] = $hotel : null;
+            } elseif ($parkFilter){
+                $hotel["parking"] ? $hotelsToPrint[] = $hotel : null;
+            } elseif ($voteFilter){
+                $hotel["vote"] >= $voteFilter ? $hotelsToPrint[] = $hotel : null;
+            };
         };
     };
+
 ?>
 
 <!DOCTYPE html>
