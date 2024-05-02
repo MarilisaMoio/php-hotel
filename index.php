@@ -40,12 +40,16 @@
     ];
 
     $parkFilter = isset($_GET["park"]) ? true : false;
-
+    $voteFilter = !isset($_GET["vote"]) || $_GET["vote"] == "false" ? false : $_GET["vote"];
 
     $hotelsToPrint = [];
     foreach ($hotels as $hotel){
-        if ($parkFilter){
+        if ($parkFilter && $voteFilter){
+            $hotel["parking"] && $hotel["vote"] >= $voteFilter ? $hotelsToPrint[] = $hotel : null;
+        } elseif ($parkFilter){
             $hotel["parking"] ? $hotelsToPrint[] = $hotel : null;
+        } elseif ($voteFilter){
+            $hotel["vote"] >= $voteFilter ? $hotelsToPrint[] = $hotel : null;
         } else {
             $hotelsToPrint[] = $hotel;
         };
@@ -64,6 +68,14 @@
     <form method="GET">
         <label for="park">Filter for Parking</label>
         <input type="checkbox" name="park" id="park">
+        <select name="vote">
+            <option value="false" selected>Filtra per voto</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
         <button type="submit">Filter</button>
     </form>
     <table class="table">
