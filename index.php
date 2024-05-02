@@ -50,6 +50,12 @@
     <title>Welcome to Hotel California</title>
 </head>
 <body>
-    
+    <?php foreach ($hotels as $hotel) {?>
+        <ul>
+            <?php foreach($hotel as $info) {?>
+                <li><?= $info ?></li>
+            <?php } ?>
+        </ul>
+    <?php } ?>
 </body>
 </html>
